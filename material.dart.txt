@@ -1,0 +1,117 @@
+
+void main() => runApp(StreamyApp());
+
+class StreamyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Streamy',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData.dark(),
+      home: StreamyHomePage(),
+    );
+  }
+}
+
+class StreamyHomePage extends StatelessWidget {
+  final List<Map<String, String>> videos = [
+    {
+      'title': 'Nature Documentary',
+      'thumbnail': 'https://via.placeholder.com/400x200.png?text=Nature',
+    },
+    {
+      'title': 'City Timelapse',
+      'thumbnail': 'https://via.placeholder.com/400x200.png?text=City',
+    },
+    {
+      'title': 'Space Exploration',
+      'thumbnail': 'https://via.placeholder.com/400x200.png?text=Space',
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Streamy'),
+        actions: [
+          IconButton(icon: Icon(Icons.search), onPressed: () {}),
+          IconButton(icon: Icon(Icons.account_circle), onPressed: () {}),
+        ],
+      ),
+      body: ListView.builder(
+        itemCount: videos.length,
+        itemBuilder: (context, index) {
+          final video = videos[index];
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => VideoDetailScreen(video: video),
+                ),
+              );
+            },
+            child: Card(
+              margin: EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  Image.network(video['thumbnail']!),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Row(
+                      children: [
+                        Icon(Icons.play_circle_fill, size: 40),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            video['title']!,
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class VideoDetailScreen extends StatelessWidget {
+  final Map<String, String> video;
+
+  VideoDetailScreen({required this.video});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(video['title']!),
+      ),
+      body: Column(
+        children: [
+          Container(
+            color: Colors.black,
+            height: 200,
+            width: double.infinity,
+            child: Center(
+              child: Icon(Icons.play_circle, color: Colors.white, size: 80),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: Text(
+              video['title']!,
+              style: TextStyle(fontSize: 24),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

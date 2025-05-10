@@ -1,0 +1,57 @@
+import React from 'react';
+import { View, Text, FlatList, Image, TouchableOpacity, StyleSheet } from 'react-native';
+
+const mockMovies = [
+  { id: '1', title: 'Stranger Things', image: 'https://i.imgur.com/4YhF0yD.jpg', url: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+  { id: '2', title: 'Breaking Bad', image: 'https://i.imgur.com/R3Z6aHn.jpg', url: 'https://www.w3schools.com/html/mov_bbb.mp4' },
+];
+
+export default function HomeScreen({ navigation }) {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}>Welcome to Netflix</Text>
+      <FlatList
+        data={mockMovies}
+        numColumns={2}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => navigation.navigate('Player', { videoUrl: item.url })}
+          >
+            <Image source={{ uri: item.image }} style={styles.image} />
+            <Text style={styles.title}>{item.title}</Text>
+          </TouchableOpacity>
+        )}
+        keyExtractor={(item) => item.id}
+      />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#000', paddingTop: 50, paddingHorizontal: 10 },
+  header: { color: '#fff', fontSize: 24, marginBottom: 20 },
+  card: { flex: 1, margin: 5 },
+  image: { width: '100%', height: 150, borderRadius: 8 },
+  title: { color: '#fff', marginTop: 5, fontSize: 14 }
+});
+
+import React from 'react';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+
+export default function LoginScreen({ navigation }) {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>NETFLIX</Text>
+      <TextInput style={styles.input} placeholder="Email" />
+      <TextInput style={styles.input} placeholder="Password" secureTextEntry />
+      <Button title="Login" onPress={() => navigation.navigate('Home')} />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, justifyContent: 'center', padding: 20 },
+  title: { fontSize: 32, fontWeight: 'bold', alignSelf: 'center', marginBottom: 40 },
+  input: { borderWidth: 1, borderColor: '#ccc', padding: 10, marginBottom: 15, borderRadius: 5 }
+});
